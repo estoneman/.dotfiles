@@ -1,4 +1,5 @@
 # .dotfiles
+Personal collection of useful shell customizations for [Bash](https://www.gnu.org/s/bash/manual/bash.html)
 
 ## Quickstart
 ```bash
