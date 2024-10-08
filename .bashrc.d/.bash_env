@@ -1,0 +1,64 @@
+# .bash_env
+
+# shell prompt
+TERM=tmux-256color
+if [ -e /usr/bin/tput ]; then
+  tput init
+  PS1="(\[$(tput bold)$(tput setaf 10)\]\D{%Y/%m/%d-%H:%M:%S}\[$(tput sgr0)\]) [\[$(tput setaf 10)\]\u\[$(tput sgr0)\]@\[$(tput setaf 10)\]\h\[$(tput sgr0)\]] \n(\[$(tput setaf 12)\]$(uname) $(uname -m)\[$(tput sgr0)\]) \[$(tput setaf 12)\]\W\[$(tput sgr0)\] \$ "
+else
+  PS1='(\t):\W \$ '
+fi
+
+# conda
+if [ -f "/Users/estoneman/anaconda3/etc/profile.d/conda.sh" ]; then
+    . "/Users/estoneman/anaconda3/etc/profile.d/conda.sh"
+else
+    PATH="/Users/estoneman/anaconda3/bin:$PATH"
+fi
+
+# google sdk
+[ -f '/Users/estoneman/google-cloud-sdk/path.bash.inc' ] && . '/Users/estoneman/google-cloud-sdk/path.bash.inc'
+
+# envman
+# shellcheck disable=SC1091
+[ -s "$HOME/.config/envman/load.sh" ] && source "$HOME/.config/envman/load.sh"
+
+# fzf
+# shellcheck disable=SC1091
+[ -f "$HOME/.fzf.bash" ] && source "$HOME/.fzf.bash"
+
+# zoxide
+eval "$(zoxide init bash)"
+
+CARGO_HOME=~/.cargo/bin
+GHC_HOME=~/.ghcup/bin
+NIM_HOME=~/.nimble/bin
+WASMTIME_HOME=~/.wasmtime/bin
+METASPLOIT_HOME=/opt/metasploit-framework
+EDITOR=nvim
+CLOUDSDK_PYTHON="$(which python3)"
+
+# home
+PATH="$PATH:/Users/estoneman/.local/bin"
+# java
+PATH="/usr/local/opt/openjdk/bin:$PATH"
+# podman
+PATH="/opt/podman/bin:$PATH"
+# rancher
+PATH="$HOME/.rd/bin:$PATH"
+# wastime
+PATH="/usr/local/opt/wabt/bin:$PATH"
+
+PATH="$PATH:$METASPLOIT_HOME/bin:$CARGO_HOME:$GHC_HOME:$NIM_HOME:$WASMTIME_HOME:."
+PATH="/Users/estoneman/.local/bin:$PATH"
+
+MANPATH="/usr/local/Cellar/bash/5.2.15/share/man/man1:$MANPATH"
+MANPATH="$HOME/.local/share/man:$MANPATH"
+
+KUBE_EDITOR='nvim'
+DOCKER_HOST="unix:///$HOME/.rd/docker.sock"
+
+export KUBE_EDITOR PATH MANPATH EDITOR CLOUDSDK_PYTHON DOCKER_HOST
+export PATH KITTY_CONFIG_DIRECTORY PS1 EDITOR HISTCONTROL MANPATH TERM
+
+# vim: ft=sh

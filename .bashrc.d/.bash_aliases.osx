@@ -1,0 +1,75 @@
+# personal laptop
+alias brew_all='brew update && brew upgrade && brew cleanup'
+alias keepassxc-cli='/Applications/KeePassXC.app/Contents/MacOS/keepassxc-cli'
+alias sourcev="source .virtualenv/bin/activate"
+alias sourcepipx='source ~/.local/pipx/venvs/virtualenv/bin/activate'
+alias vboxlistr='VBoxManage list runningvms'
+alias vboxlistv='VBoxManage list vms | cut -d\" -f2'
+
+battery() {
+    pmset -g batt | \
+        awk 'NR == 2 { printf("battery:\n    - state: %s\n    - level: %s\n", substr($4, 0, length($4) - 1), substr($3, 0, length($3) - 1)) }'
+}
+
+gssh() {
+    # $1 => name of gcp compute instance
+    # $2 => project
+    if [ -z "$1" ] || [ -z "$2" ]; then
+        echo '[ERROR] not enough arguments supplied'
+        echo 'usage: gssh <instance> <gcp-project>' && return
+    fi
+
+    gcloud compute ssh "$1" --zone=us-central1-a --project="$2" && return
+}
+
+kpxc-clip() {
+    if [ -z "$1" ]; then
+        echo '[ERROR] not enough arguments supplied'
+        echo 'usage: kpxc-clip <entry> [<timeout>]' && return
+    fi
+
+    keepassxc-cli clip -k ~/._/kpxc.keyx\; ~/._/Passwords.kdbx "$1" "${2:-5}"
+}
+
+kpxc-show() {
+    if [ -z "$1" ]; then
+        echo '[ERROR] not enough arguments supplied'
+        echo 'usage: kpxc-show <entry>' && return
+    fi
+
+    keepassxc-cli show -s -k ~/._/kpxc.keyx\; ~/._/Passwords.kdbx "$1"
+}
+
+kpxc-ls() {
+    if [ -z "$1" ]; then
+        echo '[ERROR] not enough arguments supplied'
+        echo 'usage: kpxc-ls <group>' && return
+    fi
+
+    keepassxc-cli ls -k ~/._/kpxc.keyx\; ~/._/Passwords.kdbx "${1:-/}"
+}
+
+rdctl_start() {
+    "$HOME/.rd/bin/rdctl" start \
+		--application.path-management-strategy manual \
+		--application.start-in-background \
+		--kubernetes.enabled \
+		--virtual-machine.memory-in-gb 8 \
+		--virtual-machine.number-cpus 4
+}
+
+osx_mem() {
+    vm_stat | \
+        perl -ne '/page size of (\d+)/ and $size=$1; /Pages\s+([^:]+)[^\d]+(\d+)/ and printf("%-16s % 16.2f Mi\n", "$1:", $2 * $size / 1048576);'
+}
+
+vboxrmv() {
+    if [ -z "$1" ]; then
+        echo "usage: vboxrmv <vm-name>" && return
+    fi
+    echo "removing vm: $1.. "
+    VBoxManage unregistervm "$1" --delete-all
+    echo 'done'
+}
+
+# vim: ft=sh
