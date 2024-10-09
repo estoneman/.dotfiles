@@ -46,7 +46,7 @@ example:
 HELP
 		return;
 	fi
-	curl -sS "https://hub.docker.com/v2/namespaces/library/repositories/$1/tags?page_size=${2:-100}" | \
+	curl -sSL "https://hub.docker.com/v2/namespaces/library/repositories/$1/tags?page_size=${2:-100}" | \
 		jq -r '.results[].name'
 }
 
@@ -61,7 +61,26 @@ ping_check() {
     done
 }
 
-source_venv() {
+rgf() {
+    if [ -z "$1" ]; then
+        echo 'usage: rgf <file-pattern> [<root-search-directory>]' && return
+    fi
+
+    rg --hidden --files "${2:-.}" 2>&1 | rg "$1" | sort
+}
+
+rgd() {
+    if [ -z "$1" ]; then
+        echo 'usage: rgd <directory-pattern> [<root-search-directory>]' && return
+    fi
+
+    rg --hidden --files --null "${2:-.}" 2>&1 | \
+        xargs -0 dirname | \
+        rg "$1" | \
+        uniq
+}
+
+sourcevenv() {
     local _venv_base
 
     _venv_base="$HOME/.local/pipx/venvs" 
