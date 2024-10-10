@@ -8,12 +8,12 @@ declare -A completions=(
 )
 
 for c in "${!completions[@]}"; do
-    if /usr/bin/which "$c"; then
+    if /usr/bin/which "$c" &>/dev/null; then
         eval "$(${completions[$c]})"
     fi
 done
 
-if /usr/bin/which kubectl; then
+if /usr/bin/which kubectl &>/dev/null; then
     complete -o default -F __start_kubectl k
 fi
 
