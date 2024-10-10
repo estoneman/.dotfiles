@@ -4,7 +4,7 @@
 TERM=tmux-256color
 if [ -e /usr/bin/tput ]; then
   tput init
-  PS1="($(tput setaf 107)\]\D{%Y/%m/%d-%H:%M:%S}\[$(tput sgr0)\]) \[$(tput setaf 208)\]\u\[$(tput sgr0)\]@\[$(tput setaf 180)\]\h\[$(tput sgr0)\] \n[\[$(tput setaf 66)\]$(uname) $(uname -m)\[$(tput sgr0)\]] \[$(tput setaf 104)\]\W\[$(tput sgr0)\] \$ "
+  PS1="($(tput setaf 107)\D{%Y/%m/%d-%H:%M:%S}\[$(tput sgr0)\]) \[$(tput setaf 208)\]\u\[$(tput sgr0)\]@\[$(tput setaf 180)\]\h\[$(tput sgr0)\] \n[\[$(tput setaf 66)\]$(uname) $(uname -m)\[$(tput sgr0)\]] \[$(tput setaf 104)\]\W\[$(tput sgr0)\] \$ "
 else
   PS1='(\t):\W \$ '
 fi
