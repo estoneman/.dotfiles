@@ -8,10 +8,14 @@ declare -A completions=(
 )
 
 for c in "${!completions[@]}"; do
-    eval "$(${completions[$c]})"
+    if /usr/bin/which "$c"; then
+        eval "$(${completions[$c]})"
+    fi
 done
 
-complete -o default -F __start_kubectl k
+if /usr/bin/which kubectl; then
+    complete -o default -F __start_kubectl k
+fi
 
 # outstanding
 [ -f '/Users/estoneman/google-cloud-sdk/completion.bash.inc' ] && . '/Users/estoneman/google-cloud-sdk/completion.bash.inc'
