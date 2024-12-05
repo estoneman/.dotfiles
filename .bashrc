@@ -1,17 +1,13 @@
 # .bashrc
 
-load_order=(env aliases completion options)
-if [ "$(uname)" = 'Darwin' ]; then
-    load_order=(env env.osx aliases aliases.osx completion options)
-fi
+_RC_D=$HOME/.dotfiles/.bashrc.d
+readarray -t _LOAD_ORDER <<< "$(ls -A "$_RC_D")"
 
-rc_d="$HOME/.dotfiles/.bashrc.d"
-
-if [ -d "$rc_d" ]; then
-    for rc in "${load_order[@]}"; do
+if [ -d "$_RC_D" ]; then
+    for _RC in "${_LOAD_ORDER[@]}"; do
         # shellcheck disable=SC1090
-        . "$rc_d/.bash_$rc"
+        . "${_RC_D}/${_RC}"
     done
 fi
 
-unset load_order rc rc_d
+unset _LOAD_ORDER _RC _RC_D
