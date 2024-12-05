@@ -3,6 +3,8 @@
 _UNAME="$(uname | tr '[:upper:]' '[:lower:]')"
 _WHICH=/usr/bin/which
 
+PATH="$HOME/.local/share/nvim/mason/bin:$HOME/.local/bin/:/usr/local/bin:/usr/local/sbin:/opt/bin:/usr/bin:/usr/sbin:/bin:/sbin"
+
 _RESET="\[$(tput sgr0)\]"
 _KIWI_GREEN="\[$(tput setaf 107)\]"
 _PEACH="\[$(tput setaf 180)\]"
@@ -27,9 +29,6 @@ fi
 [ -x "$("$_WHICH" zoxide)" ] && eval "$(zoxide init bash)"
 
 EDITOR=nvim
-
-# home
-PATH="$HOME/.local/share/nvim/mason/bin:$HOME/.local/bin/:/usr/local/bin:/usr/local/sbin:/opt/bin:/usr/bin:/usr/sbin:/bin:/sbin"
 
 KUBE_EDITOR="$EDITOR"
 DOCKER_HOST="unix:///$HOME/.rd/docker.sock"
