@@ -1,5 +1,6 @@
 # .bash_completion
 
+_UNAME="$(uname | tr '[:lower:]' '[:upper:]')"
 _WHICH=/usr/bin/which
 
 declare -A completions=(
@@ -19,7 +20,14 @@ if "$_WHICH" kubectl &>/dev/null; then
     complete -o default -F __start_kubectl k
 fi
 
-[ -f /usr/local/etc/bash_completion ] && . /usr/local/etc/bash_completion
+case "$_UNAME" in
+    darwin)
+        [ -f /usr/local/etc/bash_completion ] && . /usr/local/etc/bash_completion
+        ;;
+    *)
+        echo "unknown os: $_UNAME"
+        ;;
+esac
 
 unset _WHICH
 
