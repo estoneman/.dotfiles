@@ -29,7 +29,7 @@ fi
 EDITOR=nvim
 
 # home
-PATH="/Users/estoneman/.local/bin:$PATH"
+PATH="$HOME/.local/share/nvim/mason/bin:$HOME/.local/bin/:/usr/local/bin:/usr/local/sbin:/opt/bin:/usr/bin:/usr/sbin:/bin:/sbin"
 
 KUBE_EDITOR="$EDITOR"
 DOCKER_HOST="unix:///$HOME/.rd/docker.sock"
@@ -72,7 +72,7 @@ case "$_UNAME" in
         MANPATH="/usr/local/Cellar/bash/5.2.15/share/man/man1:$MANPATH"
         MANPATH="$HOME/.local/share/man:$MANPATH"
         
-        export CLOUDSDK_PYTHON GHC_HOME MANPATH METASPLOIT_HOME NIM_HOME PATH WASMTIME_HOME
+        export CLOUDSDK_PYTHON GHC_HOME MANPATH METASPLOIT_HOME NIM_HOME WASMTIME_HOME
         ;;
     *)
         echo "unknown os: $_UNAME" && return
@@ -80,5 +80,6 @@ case "$_UNAME" in
 esac
 
 unset _UNAME _RESET _KIWI_GREEN _PEACH _PERIWINKLE _TANGERINE _TEAL
+export PATH
 
 # vim: ft=sh
