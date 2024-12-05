@@ -1,6 +1,6 @@
 # .bash_completion
 
-_UNAME="$(uname | tr '[:lower:]' '[:upper:]')"
+_UNAME="$(uname | tr '[:upper:]' '[:lower:]')"
 _WHICH=/usr/bin/which
 
 declare -A completions=(
