@@ -3,11 +3,18 @@
 _UNAME="$(uname | tr '[:upper:]' '[:lower:]')"
 _WHICH=/usr/bin/which
 
+_RESET="\[$(tput sgr0)\]"
+_KIWI_GREEN="\[$(tput setaf 107)\]"
+_PEACH="\[$(tput setaf 180)\]"
+_PERIWINKLE="\[$(tput setaf 104)\]"
+_TANGERINE="\[$(tput setaf 208)\]"
+_TEAL="\[$(tput setaf 66)\]"
+
 # shell prompt
 TERM=tmux-256color
-if [ -e /usr/bin/tput ]; then
+if [ -x /usr/bin/tput ]; then
   tput init
-  PS1="($(tput setaf 107)\D{%Y/%m/%d-%H:%M:%S}\[$(tput sgr0)\]) \[$(tput setaf 208)\]\u\[$(tput sgr0)\]@\[$(tput setaf 180)\]\h\[$(tput sgr0)\] \n[\[$(tput setaf 66)\]$(uname) $(uname -m)\[$(tput sgr0)\]] \[$(tput setaf 104)\]\W\[$(tput sgr0)\] \$ "
+  PS1="(${_KIWI_GREEN}\D{%Y/%m/%d-%H:%M:%S}${_RESET}) ${_TANGERINE}\u${_RESET}@${_PEACH}\h${_RESET} \n[${_TEAL}$(uname) $(uname -m)${_RESET}] ${_PERIWINKLE}\W${_RESET} \$ "
 else
   PS1='(\t):\W \$ '
 fi
@@ -72,6 +79,6 @@ case "$_UNAME" in
         ;;
 esac
 
-unset _UNAME
+unset _UNAME _RESET _KIWI_GREEN _PEACH _PERIWINKLE _TANGERINE _TEAL
 
 # vim: ft=sh
