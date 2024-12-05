@@ -1,0 +1,11 @@
+# .bash_options
+
+shopt -s checkwinsize
+set -o noclobber
+bind -s 'set completion-ignore-case on'
+
+HISTCONTROL=ignoreboth:erasedups
+
+export HISTCONTROL
+
+# vim: ft=sh

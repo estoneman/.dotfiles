@@ -1,0 +1,77 @@
+# .bash_env
+
+_UNAME="$(uname | tr '[:upper:]' '[:lower:]')"
+_WHICH=/usr/bin/which
+
+# shell prompt
+TERM=tmux-256color
+if [ -e /usr/bin/tput ]; then
+  tput init
+  PS1="($(tput setaf 107)\D{%Y/%m/%d-%H:%M:%S}\[$(tput sgr0)\]) \[$(tput setaf 208)\]\u\[$(tput sgr0)\]@\[$(tput setaf 180)\]\h\[$(tput sgr0)\] \n[\[$(tput setaf 66)\]$(uname) $(uname -m)\[$(tput sgr0)\]] \[$(tput setaf 104)\]\W\[$(tput sgr0)\] \$ "
+else
+  PS1='(\t):\W \$ '
+fi
+
+# fzf
+# shellcheck disable=SC1091
+[ -f "$HOME/.fzf.bash" ] && source "$HOME/.fzf.bash"
+
+# zoxide
+[ -x "$("$_WHICH" zoxide)" ] && eval "$(zoxide init bash)"
+
+EDITOR=nvim
+
+# home
+PATH="/Users/estoneman/.local/bin:$PATH"
+
+KUBE_EDITOR="$EDITOR"
+DOCKER_HOST="unix:///$HOME/.rd/docker.sock"
+
+export CLOUDSDK_PYTHON DOCKER_HOST EDITOR KUBE_EDITOR MANPATH PATH PS1 TERM
+
+case "$_UNAME" in
+    darwin)
+        # conda
+        if [ -f "/Users/estoneman/anaconda3/etc/profile.d/conda.sh" ]; then
+            . "/Users/estoneman/anaconda3/etc/profile.d/conda.sh"
+        else
+            PATH="/Users/estoneman/anaconda3/bin:$PATH"
+        fi
+        
+        # google sdk
+        [ -f '/Users/estoneman/google-cloud-sdk/path.bash.inc' ] && . '/Users/estoneman/google-cloud-sdk/path.bash.inc'
+        
+        # envman
+        # shellcheck disable=SC1091
+        [ -s "$HOME/.config/envman/load.sh" ] && source "$HOME/.config/envman/load.sh"
+        
+        CLOUDSDK_PYTHON="$(which python3)"
+        GHC_HOME=~/.ghcup/bin
+        METASPLOIT_HOME=/opt/metasploit-framework
+        NIM_HOME=~/.nimble/bin
+        WASMTIME_HOME=~/.wasmtime/bin
+        
+        # java
+        PATH="/usr/local/opt/openjdk/bin:$PATH"
+        # podman
+        PATH="/opt/podman/bin:$PATH"
+        # rancher
+        PATH="$HOME/.rd/bin:$PATH"
+        # wastime
+        PATH="/usr/local/opt/wabt/bin:$PATH"
+        
+        PATH="$PATH:$METASPLOIT_HOME/bin:$CARGO_HOME:$GHC_HOME:$NIM_HOME:$WASMTIME_HOME:."
+        
+        MANPATH="/usr/local/Cellar/bash/5.2.15/share/man/man1:$MANPATH"
+        MANPATH="$HOME/.local/share/man:$MANPATH"
+        
+        export CLOUDSDK_PYTHON GHC_HOME MANPATH METASPLOIT_HOME NIM_HOME PATH WASMTIME_HOME
+        ;;
+    *)
+        echo "unknown os: $_UNAME" && return
+        ;;
+esac
+
+unset _UNAME
+
+# vim: ft=sh
