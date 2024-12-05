@@ -29,11 +29,12 @@ fi
 [ -x "$("$_WHICH" zoxide)" ] && eval "$(zoxide init bash)"
 
 EDITOR=nvim
+VISUAL=nvim
 
 KUBE_EDITOR="$EDITOR"
 DOCKER_HOST="unix:///$HOME/.rd/docker.sock"
 
-export CLOUDSDK_PYTHON DOCKER_HOST EDITOR KUBE_EDITOR MANPATH PATH PS1 TERM
+export CLOUDSDK_PYTHON DOCKER_HOST EDITOR KUBE_EDITOR MANPATH PATH PS1 TERM VISUAL
 
 case "$_UNAME" in
     darwin)
