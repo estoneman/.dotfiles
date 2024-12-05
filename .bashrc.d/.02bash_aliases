@@ -43,30 +43,28 @@ if type -t z &>/dev/null && "$_WHICH" zoxide &>/dev/null; then
     alias cd='z'
 fi
 
-if "$_WHICH" docker &>/dev/null; then
-    docker_tags() {
-    	if [ -z "$1" ]; then
-    		cat <<HELP
-    show tags of a docker hub repository
-    
-    usage:
-    
-        $ docker_tags <repository> [page_size(default: 100)]
-    
-    example:
-    
-        $ docker_tags debian 50 # shows the next 50 tags of the debian repository
-        1.1.1
-        alpine
-        1.11.9
-        ...
+docker_tags() {
+	if [ -z "$1" ]; then
+		cat <<HELP
+show tags of a docker hub repository
+
+usage:
+
+    $ docker_tags <repository> [page_size(default: 100)]
+
+example:
+
+    $ docker_tags debian 50 # shows the next 50 tags of the debian repository
+    1.1.1
+    alpine
+    1.11.9
+    ...
 HELP
-    		return;
-    	fi
-    	curl -sSL "https://hub.docker.com/v2/namespaces/library/repositories/$1/tags?page_size=${2:-100}" | \
-    		jq -r '.results[].name'
-    }
-fi
+		return;
+	fi
+	curl -sSL "https://hub.docker.com/v2/namespaces/library/repositories/$1/tags?page_size=${2:-100}" | \
+		jq -r '.results[].name'
+}
 
 mkcd() {
     mkdir -p "$@" && cd "$_" || return
