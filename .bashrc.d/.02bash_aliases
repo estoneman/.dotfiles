@@ -223,6 +223,9 @@ case "$_UNAME" in
             echo 'done'
         }
         ;;
+    linux)
+        # catch this case, but do nothing
+        ;;
     *)
         echo "unknown os: $_UNAME" && return
         ;;

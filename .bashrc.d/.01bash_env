@@ -74,6 +74,9 @@ case "$_UNAME" in
         
         export CLOUDSDK_PYTHON GHC_HOME MANPATH METASPLOIT_HOME NIM_HOME WASMTIME_HOME
         ;;
+    linux)
+        # catch this case, but do nothing
+        ;;
     *)
         echo "unknown os: $_UNAME" && return
         ;;

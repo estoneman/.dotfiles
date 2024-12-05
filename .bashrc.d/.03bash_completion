@@ -24,6 +24,9 @@ case "$_UNAME" in
     darwin)
         [ -f /usr/local/etc/bash_completion ] && . /usr/local/etc/bash_completion
         ;;
+    linux)
+        # catch this case, but do nothing
+        ;;
     *)
         echo "unknown os: $_UNAME"
         ;;
