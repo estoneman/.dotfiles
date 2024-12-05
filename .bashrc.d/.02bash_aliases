@@ -109,7 +109,7 @@ if "$_WHICH" rg &>/dev/null; then
     }
 fi
 
-sourcevenv() {
+source_venv() {
     local _venv_base
 
     _venv_base="$HOME/.local/pipx/venvs" 
