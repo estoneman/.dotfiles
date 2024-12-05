@@ -66,6 +66,17 @@ HELP
 		jq -r '.results[].name'
 }
 
+get_srvcert() {
+    if [ -z "$1" ]; then
+        echo 'usage: get_srvcert <server-name> [port(default: 443)]' && return
+    fi
+
+    openssl s_client \
+        -connect "$1:${2:-443}" \
+        -servername "$1" 2>/dev/null </dev/null \
+    | sed -ne '/BEGIN CERTIFICATE/,/END CERTIFICATE/p'
+}
+
 mkcd() {
     mkdir -p "$@" && cd "$_" || return
 }
@@ -111,6 +122,20 @@ sourcevenv() {
 
     # shellcheck disable=SC1091,1090
     source "$HOME/.local/pipx/venvs/$1/bin/activate"
+}
+
+test_connect() {
+    local _host _port
+
+    _host="${1:-google.com}"
+    _port="${2:-443}"
+
+    if ! nc -zw 1 "$_host" "$_port"; then
+        cat <<-EOF
+Could not connect to $_host:$_port
+If behind VPN, restart wsl-vpnkit if on WSL
+EOF
+    fi
 }
 
 if alias tmnew &>/dev/null; then
